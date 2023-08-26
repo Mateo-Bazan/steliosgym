@@ -12,7 +12,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+
+Route::get('/', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+
+// 404
+Route::any( '{catchall}', function ( $page ) {
+	$title='P&aacute;gina no encontrada';
+	$page_description='La p&aacute;gina '.$page.' no encontrada';
+	return view('notfound',compact('page','title','page_description'));
+} )->where('catchall', '(.*)');
